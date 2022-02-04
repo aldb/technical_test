@@ -21,6 +21,17 @@ public class Game : MonoBehaviour
 
     protected float Timer;
 
+    public void loadData(int lvlC, int lvlAut, int r)
+    {
+        lvlAutoCollect=lvlAut;
+        lvlClickCollect=lvlC;
+        ressources = r;
+        quantityClickCollect = (int)Math.Pow(2, lvlClickCollect);
+        quantityAutoCollect = (int)Math.Floor(Math.Pow(2, lvlAutoCollect - 1));
+
+        updateTextAutoCollect();
+        updateTextClickCollect();
+    }
 
     private void updateTextAutoCollect()
     {
@@ -42,7 +53,7 @@ public class Game : MonoBehaviour
 
     public void levelUpClickCollect()
     {
-        if (ressources > 21)
+        if (ressources >= 20)
         {
             ressources -= 20;
             lvlClickCollect += 1;
@@ -54,11 +65,11 @@ public class Game : MonoBehaviour
 
     public void levelUpAutoCollect()
     {
-        if (ressources > 21)
+        if (ressources >= 20)
         {
             ressources -= 20;
-            lvlClickCollect += 1;
-            quantityAutoCollect = ((int)Math.Pow(2, Math.Max(0, (lvlAutoCollect - 1)))) / 2;
+            lvlAutoCollect += 1;
+            quantityAutoCollect = (int)Math.Floor(Math.Pow(2, lvlAutoCollect - 1));
             updateTextAutoCollect();
         }
     }
@@ -68,9 +79,7 @@ public class Game : MonoBehaviour
     void Start()
     {
         quantityClickCollect = (int) Math.Pow(2,lvlClickCollect);
-        Debug.Log(quantityClickCollect);
-     
-        quantityAutoCollect = ((int)Math.Pow(2, Math.Max(0, (lvlAutoCollect - 1))) ) / 2;
+        quantityAutoCollect = (int)Math.Floor( Math.Pow(2, lvlAutoCollect - 1) );
         updateTextAutoCollect();
         updateTextClickCollect();
     }
