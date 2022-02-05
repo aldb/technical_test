@@ -5,22 +5,38 @@ using UnityEngine;
 
 public class Game : MonoBehaviour
 {
-    //Player
-    const float delaySec = 5.0f;
-    public int lvlClickCollect;
-    public int quantityClickCollect;
-    public int lvlAutoCollect;
-    public int quantityAutoCollect;
-    public int ressources;
-
-    //TEXT
-    public GameObject lvlTextAutoCollect;
-    public GameObject lvlTextClickCollect;
-    public GameObject effectTextAutoCollect;
-    public GameObject effectTextClickCollect;
-
+    [SerializeField]
+    const float DELAY = 5.0f;
+    [SerializeField]
+    const int COST = 20;
+    [SerializeField]
+    const int LVLLIMIT = 10; 
     protected float Timer;
 
+    //Player Var
+    public int lvlClickCollect;
+    private int quantityClickCollect;
+    public int lvlAutoCollect;
+    private int quantityAutoCollect;
+    public int ressources;
+
+    //TEXT Var
+    [SerializeField]
+    private GameObject lvlTextAutoCollect;
+    [SerializeField]
+    private GameObject lvlTextClickCollect;
+    [SerializeField]
+    private GameObject effectTextAutoCollect;
+    [SerializeField]
+    private GameObject effectTextClickCollect;
+    [SerializeField]
+    private GameObject scoreText;
+
+    //Tree
+    public GridBoard grid;
+
+
+    //Update the data during loading
     public void loadData(int lvlC, int lvlAut, int r)
     {
         lvlAutoCollect=lvlAut;
@@ -31,73 +47,84 @@ public class Game : MonoBehaviour
 
         updateTextAutoCollect();
         updateTextClickCollect();
+        updateScoreText();
     }
 
     private void updateTextAutoCollect()
     {
         lvlTextAutoCollect.GetComponent<TMPro.TextMeshProUGUI>().text = "lvl." + lvlAutoCollect;
         effectTextAutoCollect.GetComponent<TMPro.TextMeshProUGUI>().text = quantityAutoCollect + " per click";
-
     }
-
     private void updateTextClickCollect()
     {
         lvlTextClickCollect.GetComponent<TMPro.TextMeshProUGUI>().text = "lvl." + lvlClickCollect;
         effectTextClickCollect.GetComponent<TMPro.TextMeshProUGUI>().text = quantityClickCollect + " per click";
     }
-
+    private void updateScoreText()
+    {
+        scoreText.GetComponent<TMPro.TextMeshProUGUI>().text = "Score: " + ressources;
+    } 
     public void incrementRessourcesOnClick()
     {
         ressources += quantityClickCollect;
+        updateScoreText();
     }
-
     public void levelUpClickCollect()
     {
-        if (ressources >= 20)
+        if (lvlClickCollect < LVLLIMIT && ressources >= COST)
         {
-            ressources -= 20;
+            ressources -= COST;
             lvlClickCollect += 1;
             quantityClickCollect = quantityClickCollect * 2;
             updateTextClickCollect();
+            updateScoreText();
 
         }
     }
-
     public void levelUpAutoCollect()
     {
-        if (ressources >= 20)
+        if (lvlAutoCollect < LVLLIMIT&& ressources >= COST)
         {
-            ressources -= 20;
+            ressources -= COST;
             lvlAutoCollect += 1;
             quantityAutoCollect = (int)Math.Floor(Math.Pow(2, lvlAutoCollect - 1));
             updateTextAutoCollect();
+            updateScoreText();
+        }
+    }
+    public void OnClicBuyPine(int cat)
+    {
+        if (ressources >= COST)
+        {
+            if (grid.RandomPlaceTree(cat)) {
+                ressources -= COST;
+                updateScoreText();
+            } 
+
         }
     }
 
-
-    // Start is called before the first frame update
     void Start()
     {
+        grid= (GridBoard)FindObjectOfType(typeof(GridBoard));
         quantityClickCollect = (int) Math.Pow(2,lvlClickCollect);
         quantityAutoCollect = (int)Math.Floor( Math.Pow(2, lvlAutoCollect - 1) );
         updateTextAutoCollect();
         updateTextClickCollect();
+        updateScoreText();
     }
-
-    // Update is called once per frame
     void Update()
     {
         Timer += Time.deltaTime;
 
         //We gain ressources every delaySec seconde
-        if (Timer >= delaySec)
+        if (Timer >= DELAY)
         {
             Timer = 0f;
             ressources += quantityAutoCollect;
+            updateScoreText();
         }
 
     }
-
-
 
 }

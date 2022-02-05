@@ -1,18 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tree : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+
+[Serializable]
+public class Tree 
+{
+    public int cat;
+    public int coordX;
+    public int coordY;
+
+    public Tree(int cat, int x, int y )
     {
+        this.cat = cat;
+        this.coordX = x;
+        this.coordY = y; 
         
     }
+ 
 }

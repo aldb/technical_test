@@ -1,23 +1,39 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-
-
-public class UpgradeWindow : MonoBehaviour
+public class UpgradeWindow : MonoBehaviour, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
-    public GameObject Window;
-    // Start is called before the first frame update
-    public void OpenWindow() {
-        if (Window != null) {
-            Window.SetActive(true);
-        }
-    }
-    public void ClosedWindow() {
-        if (Window != null)
-        {
-            Window.SetActive(false);
-        }
-    }
  
+    private bool mouseIsOver = false;
+    private void OnEnable()
+    {
+        EventSystem.current.SetSelectedGameObject(gameObject);
+    }
+    public void OpenWindow()
+    {
+            gameObject.SetActive(true);
+    }
+    public void OnDeselect(BaseEventData eventData)
+    {
+        //Close the Window on Deselect only if a click occurred outside this panel
+        if (!mouseIsOver)
+            gameObject.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        mouseIsOver = true;
+        EventSystem.current.SetSelectedGameObject(gameObject);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        mouseIsOver = false;
+        EventSystem.current.SetSelectedGameObject(gameObject);
+       
+    }
+
+
 }
