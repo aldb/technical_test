@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Game : MonoBehaviour
 {
@@ -32,7 +33,13 @@ public class Game : MonoBehaviour
 
     //Tree
     public GridBoard grid;
-    public clicker.PlayerScore playerScore;
+    [SerializeField] 
+    private TMP_Text textbox;
+
+    public void updateScore()
+    {
+        textbox.SetText(ressources.ToString());
+    }
 
     //Update the data during loading
     public void loadData(int lvlC, int lvlAut, int r)
@@ -45,7 +52,7 @@ public class Game : MonoBehaviour
 
         updateTextAutoCollect();
         updateTextClickCollect();
-        playerScore.updateScore();
+        updateScore();
     }
 
     private void updateTextAutoCollect()
@@ -62,6 +69,7 @@ public class Game : MonoBehaviour
     public void incrementRessourcesOnClick()
     {
         ressources += quantityClickCollect;
+        updateScore();
     }
     public void levelUpClickCollect()
     {
@@ -71,7 +79,7 @@ public class Game : MonoBehaviour
             lvlClickCollect += 1;
             quantityClickCollect = quantityClickCollect * 2;
             updateTextClickCollect();
-            playerScore.updateScore();
+            updateScore();
 
         }
     }
@@ -83,7 +91,7 @@ public class Game : MonoBehaviour
             lvlAutoCollect += 1;
             quantityAutoCollect = (int)Math.Floor(Math.Pow(2, lvlAutoCollect - 1));
             updateTextAutoCollect();
-            playerScore.updateScore();
+            updateScore();
         }
     }
     public void OnClicBuyPine(int cat)
@@ -93,7 +101,7 @@ public class Game : MonoBehaviour
             if (grid.RandomPlaceTree(cat))
             {
                 ressources -= COST;
-                playerScore.updateScore();
+                updateScore();
             }
             
         }
@@ -106,7 +114,7 @@ public class Game : MonoBehaviour
         quantityAutoCollect = (int)Math.Floor(Math.Pow(2, lvlAutoCollect - 1));
         updateTextAutoCollect();
         updateTextClickCollect();
-        playerScore.updateScore();
+        updateScore();
     }
     void Update()
     {
@@ -117,7 +125,7 @@ public class Game : MonoBehaviour
         {
             Timer = 0f;
             ressources += quantityAutoCollect;
-            playerScore.updateScore();
+            updateScore();
         }
 
     }

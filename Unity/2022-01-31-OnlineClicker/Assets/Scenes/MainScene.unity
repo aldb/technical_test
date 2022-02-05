@@ -1522,6 +1522,16 @@ PrefabInstance:
       objectReference: {fileID: 698119595}
     - target: {fileID: 246135539636662420, guid: 33128b259a0b528489d6ea6504b35cb3,
         type: 3}
+      propertyPath: textbox
+      value: 
+      objectReference: {fileID: 248710419}
+    - target: {fileID: 246135539636662420, guid: 33128b259a0b528489d6ea6504b35cb3,
+        type: 3}
+      propertyPath: _textbox
+      value: 
+      objectReference: {fileID: 248710419}
+    - target: {fileID: 246135539636662420, guid: 33128b259a0b528489d6ea6504b35cb3,
+        type: 3}
       propertyPath: scoreText
       value: 
       objectReference: {fileID: 248710417}
@@ -1534,7 +1544,7 @@ PrefabInstance:
         type: 3}
       propertyPath: playerScore
       value: 
-      objectReference: {fileID: 2137605029}
+      objectReference: {fileID: 0}
     - target: {fileID: 246135539636662420, guid: 33128b259a0b528489d6ea6504b35cb3,
         type: 3}
       propertyPath: lvlTextAutoCollect
@@ -6712,7 +6722,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2137605030}
-  - component: {fileID: 2137605029}
   - component: {fileID: 2137605031}
   m_Layer: 0
   m_Name: Player
@@ -6721,20 +6730,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2137605029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2137605028}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f2d0c51c5de88849a3a60284b99260e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _textbox: {fileID: 248710419}
-  game: {fileID: 1184454231}
 --- !u!4 &2137605030
 Transform:
   m_ObjectHideFlags: 0
@@ -6769,8 +6764,8 @@ MonoBehaviour:
   _onClickSuccess:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2137605029}
-        m_MethodName: IncreaseScore
+      - m_Target: {fileID: 1184454231}
+        m_MethodName: incrementRessourcesOnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
